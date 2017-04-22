@@ -62,12 +62,12 @@ namespace Assets.Scripts
 
         void OnTriggerEnter2D(Collider2D other)
         {
-            var bulletScript = other.gameObject.GetComponent<BulletManager>();
-            if (bulletScript != null)
+            var damageScript = other.gameObject.GetComponent<DamageManager>();
+            if (damageScript != null)
             {
-                if ((bulletScript.isFromEnemy && (EntityType == MobileType.Player || EntityType == MobileType.NPC)) || (!bulletScript.isFromEnemy && EntityType == MobileType.Enemy))
+                if ((damageScript.isFromEnemy && (EntityType == MobileType.Player || EntityType == MobileType.NPC)) || (!damageScript.isFromEnemy && EntityType == MobileType.Enemy))
                 {
-                    Damage(bulletScript.damage, bulletScript.damageType);
+                    Damage(damageScript.damage, damageScript.damageType);
                 }
             }
         }

@@ -1,4 +1,7 @@
+using System.Security.Permissions;
+using Assets.Scripts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// This class is a simple example of how to build a controller that interacts with PlatformerMotor2D.
@@ -11,10 +14,17 @@ public class PlayerController2D : MonoBehaviour
     private bool _enableOneWayPlatforms;
     private bool _oneWayPlatformsAreWalls;
 
+    public HealthManager HealthManager;
+    public DamageManager DamageManager;
+    public ArmorManager ArmorManager;
+
     // Use this for initialization
     void Start()
     {
         _motor = GetComponent<PlatformerMotor2D>();
+        ArmorManager = GameManager.instance.resistances;
+        HealthManager = GameManager.instance.playerHealthManager;
+
     }
 
     // before enter en freedom state for ladders
@@ -41,6 +51,11 @@ public class PlayerController2D : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            SceneManager.LoadScene("LVL0");
+            return;
+        }
         // use last state to restore some ladder specific values
         if (_motor.motorState != PlatformerMotor2D.MotorState.FreedomState)
         {

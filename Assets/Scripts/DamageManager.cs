@@ -11,7 +11,7 @@ namespace Assets.Scripts
         Poison=0x4
     }
 
-    public class BulletManager : MonoBehaviour
+    public class DamageManager : MonoBehaviour
     {
         /// <summary>
         /// inital damage inflicted
@@ -46,7 +46,6 @@ namespace Assets.Scripts
         // Use this for initialization
         void Start()
         {
-            Destroy(gameObject, 20);
         }
     }
 }
