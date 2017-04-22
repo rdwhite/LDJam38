@@ -69,7 +69,6 @@ namespace Assets.Scripts
                 {
                     Damage(bulletScript.damage, bulletScript.damageType);
                 }
-
             }
         }
 
