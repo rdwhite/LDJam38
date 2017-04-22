@@ -8,7 +8,6 @@ public class HealthBarController : MonoBehaviour {
 
     // Use this for initialization
     private Slider healthBar;
-    private int currentHealthPoints = 100;
     public HealthManager playerHealthManager;
 
 	void Awake () {

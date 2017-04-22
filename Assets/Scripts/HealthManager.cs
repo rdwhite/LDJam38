@@ -32,10 +32,10 @@ namespace Assets.Scripts
             {
                 damageAmount = armor.CalculateDamage(damageAmount, type);
             }
-            if (currentHp - damageAmount > 0)
+            if (currentHp - damageAmount < 0)
             {
                 //dead
-                Destroy(gameObject);
+               // Destroy(gameObject);
             }
             else
             {
@@ -56,14 +56,14 @@ namespace Assets.Scripts
         }
 
         // Use this for initialization
-        void Start()
+        void Awake()
         {
             currentHp = MaxHp;
         }
-
+           
         void OnCollisionEnter2D(Collision2D other)
         {
-            Console.WriteLine("Entering collision " + other.gameObject.tag);
+           Debug.Log("Entering collision " + other.gameObject.tag);
             var damageScript = other.gameObject.GetComponent<DamageManager>();
             if (damageScript != null)
             {
