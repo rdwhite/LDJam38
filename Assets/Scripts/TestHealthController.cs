@@ -13,7 +13,7 @@ public class TestHealthController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if (Input.GetKey(KeyCode.UpArrow)) healthBar.changeHealthPoints(1);
-        if (Input.GetKey(KeyCode.DownArrow)) healthBar.changeHealthPoints(-1);
+	    //if (Input.GetKey(KeyCode.UpArrow)) healthBar.changeHealthPoints(1);
+     //   if (Input.GetKey(KeyCode.DownArrow)) healthBar.changeHealthPoints(-1);
 	}
 }

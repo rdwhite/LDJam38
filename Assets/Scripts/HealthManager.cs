@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
 
@@ -60,8 +61,9 @@ namespace Assets.Scripts
             currentHp = MaxHp;
         }
 
-        void OnTriggerEnter2D(Collider2D other)
+        void OnCollisionEnter2D(Collision2D other)
         {
+            Console.WriteLine("Entering collision " + other.gameObject.tag);
             var damageScript = other.gameObject.GetComponent<DamageManager>();
             if (damageScript != null)
             {
@@ -72,6 +74,6 @@ namespace Assets.Scripts
             }
         }
 
-        private int currentHp;
+        [HideInInspector] public int currentHp;
     }
 }

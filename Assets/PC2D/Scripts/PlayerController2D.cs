@@ -22,8 +22,10 @@ public class PlayerController2D : MonoBehaviour
     void Start()
     {
         _motor = GetComponent<PlatformerMotor2D>();
+        if (GameManager.instance.resistances == null) GameManager.instance.resistances = GetComponent<ArmorManager>();
+        if (GameManager.instance.PlayerHealthManager == null) GameManager.instance.PlayerHealthManager = GetComponent<HealthManager>();        
         ArmorManager = GameManager.instance.resistances;
-        HealthManager = GameManager.instance.playerHealthManager;
+        HealthManager = GameManager.instance.PlayerHealthManager;
 
     }
 
