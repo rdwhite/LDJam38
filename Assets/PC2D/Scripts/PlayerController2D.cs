@@ -80,13 +80,16 @@ public class PlayerController2D : MonoBehaviour
         if (Input.GetAxis(PC2D.Input.VERTICAL) != 0)
         {
             bool up_pressed = Input.GetAxis(PC2D.Input.VERTICAL) > 0;
+            var downpressed = Input.GetAxis(PC2D.Input.VERTICAL) < 0.0f;
             if (_motor.IsOnLadder())
             {
                 if (
                     (up_pressed && _motor.ladderZone == PlatformerMotor2D.LadderZone.Top)
                     ||
-                    (!up_pressed && _motor.ladderZone == PlatformerMotor2D.LadderZone.Bottom)
-                 )
+                    (!up_pressed && _motor.ladderZone == PlatformerMotor2D.LadderZone.Bottom) ||
+                    (downpressed && _motor.ladderZone == PlatformerMotor2D.LadderZone.Bottom) ||
+                    (!downpressed && _motor.ladderZone == PlatformerMotor2D.LadderZone.Top)
+                    )
                 {
                     // do nothing!
                 }
@@ -96,7 +99,7 @@ public class PlayerController2D : MonoBehaviour
                     // example ladder behaviour
 
                     _motor.FreedomStateEnter(); // enter freedomState to disable gravity
-                    _motor.EnableRestrictedArea();  // movements is retricted to a specific sprite bounds
+                    _motor.EnableRestrictedArea(); // movements is retricted to a specific sprite bounds
 
                     // now disable OWP completely in a "trasactional way"
                     FreedomStateSave(_motor);
@@ -108,12 +111,11 @@ public class PlayerController2D : MonoBehaviour
                     _motor.normalizedYMovement = Input.GetAxis(PC2D.Input.VERTICAL);
                 }
             }
+            else if (Input.GetAxis(PC2D.Input.VERTICAL) < PC2D.Globals.FAST_FALL_THRESHOLD)
+            {
+                _motor.fallFast = false;
+            }
         }
-        else if (Input.GetAxis(PC2D.Input.VERTICAL) < -PC2D.Globals.FAST_FALL_THRESHOLD)
-        {
-            _motor.fallFast = false;
-        }
-
         if (Input.GetButtonDown(PC2D.Input.DASH))
         {
             _motor.Dash();
