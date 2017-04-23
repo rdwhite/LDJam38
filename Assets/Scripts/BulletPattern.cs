@@ -153,16 +153,17 @@ public class BulletPattern : MonoBehaviour
         switch ((DirectionType)a.direction)
         {
             case (DirectionType.TargetPlayer):
-                var originalRot = t.rotation;
-                var dotHeading = Vector3.Dot(temp.transform.up, BulletManager.instance.player.position - temp.transform.position);
+                temp.transform.LookAt(BulletManager.instance.player);
+                //var originalRot = t.rotation;
+                //var dotHeading = Vector3.Dot(temp.transform.up, BulletManager.instance.player.position - temp.transform.position);
 
-                int dir;
-                if (dotHeading > 0)
-                    dir = -1;
-                else
-                    dir = 1;
-                var angleDif = Vector3.Angle(temp.transform.forward, BulletManager.instance.player.position - temp.transform.position);
-                temp.transform.rotation = originalRot * Quaternion.AngleAxis((dir * angleDif) - ang, Vector3.right);
+                //int dir;
+                //if (dotHeading > 0)
+                //    dir = -1;
+                //else
+                //    dir = 1;
+                //var angleDif = Vector3.Angle(temp.transform.forward, BulletManager.instance.player.position - temp.transform.position);
+                //temp.transform.rotation = originalRot * Quaternion.AngleAxis((dir * angleDif) - ang, Vector3.right);
                 break;
 
             case (DirectionType.Absolute):

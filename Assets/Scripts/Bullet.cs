@@ -238,14 +238,15 @@ public class Bullet : MonoBehaviour
         switch (actions[i].direction)
         {
             case (DirectionType.TargetPlayer):
-                var dotHeading = Vector3.Dot(tform.up, BulletManager.instance.player.position - tform.position);
-                int dir;
-                if (dotHeading > 0)
-                    dir = -1;
-                else
-                    dir = 1;
-                var angleDif = Vector3.Angle(tform.forward, BulletManager.instance.player.position - tform.position);
-                newRot = originalRot * Quaternion.AngleAxis((dir * angleDif) - ang, Vector3.right);
+                tform.LookAt(BulletManager.instance.player);
+                //var dotHeading = Vector3.Dot(tform.up, BulletManager.instance.player.position - tform.position);
+                //int dir;
+                //if (dotHeading > 0)
+                //    dir = -1;
+                //else
+                //    dir = 1;
+                //var angleDif = Vector3.Angle(tform.forward, BulletManager.instance.player.position - tform.position);
+                //newRot = originalRot * Quaternion.AngleAxis((dir * angleDif) - ang, Vector3.right);
                 break;
 
             case (DirectionType.Absolute):

@@ -29,7 +29,7 @@ public class BulletPatternEditor : Editor
     void OnEnable()
     {
         bp = target as BulletPattern;
-        bm = GameObject.Find("BulletManager").GetComponent<BulletManager>();
+        bm = GameObject.Find("BulletManagerObject").GetComponent<BulletManager>();
 
     }
 
