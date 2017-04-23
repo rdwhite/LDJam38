@@ -333,7 +333,7 @@ public class Bullet : MonoBehaviour
     //if a bullet leaves the boundary then make sure it actually left the screen, not enetered it
     // if it did, then deactivate
     // this process MAY be too intensive for iPhone, but then it does keep bullet number under control
-    void OnTriggerExit2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Boundary"))
         {
