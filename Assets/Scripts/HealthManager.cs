@@ -27,15 +27,16 @@ namespace Assets.Scripts
 
         public void Damage(int damageAmount, DamageType type)
         {
-            var armor = gameObject.GetComponent<ArmorManager>();
+            var armor = GetComponent<ArmorManager>();
             if (armor != null)
             {
                 damageAmount = armor.CalculateDamage(damageAmount, type);
             }
             if (currentHp - damageAmount < 0)
             {
+                currentHp = 0;
                 //dead
-               // Destroy(gameObject);
+                // Destroy(gameObject);
             }
             else
             {
