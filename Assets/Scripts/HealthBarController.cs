@@ -21,12 +21,11 @@ public class HealthBarController : MonoBehaviour {
 	// Update is called at end of frame
 	void LateUpdate ()
 	{
-	    //healthBar.maxValue = playerHealthManager.MaxHp;
-	   //healthBar.value = playerHealthManager.currentHp;
-       // healthText.text = healthBar.value + "/" + healthBar.maxValue;
+	    healthBar.maxValue = playerHealthManager.MaxHp;
+	    healthBar.value = playerHealthManager.currentHp;
+        healthText.text = healthBar.value + "/" + healthBar.maxValue;
 
         healthBar.maxValue = enemyHealthManager.MaxHp;
         healthBar.value = enemyHealthManager.currentHp;
-        healthText.text = healthBar.value + "/" + healthBar.maxValue;
-    }
+	}
 }
