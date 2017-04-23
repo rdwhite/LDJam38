@@ -59,9 +59,9 @@ public class Bullet : MonoBehaviour
         //if you uncomment this stuff the bullet willl die automatically die after awhile
         // look at me tempting you like this 
 
-        //lifetime += Time.deltaTime;
-        //if(lifetime > BulletManager.instance.bulletLifespan)
-        //	Deactivate();
+        lifetime += Time.deltaTime;
+        if(lifetime > BulletManager.instance.bulletLifespan)
+        Deactivate();
 
 
     }
@@ -333,27 +333,23 @@ public class Bullet : MonoBehaviour
     //if a bullet leaves the boundary then make sure it actually left the screen, not enetered it
     // if it did, then deactivate
     // this process MAY be too intensive for iPhone, but then it does keep bullet number under control
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Boundary"))
+        if (other.CompareTag("Boundary") || other.name == "PlayerController")
         {
-            if (CamColliders.instance.isOutSideBox(tform.position))
-            {
                 Deactivate();
-            }
-
         }
     }
 
-   
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("PlayerController"))
+        {
+            Deactivate();
+        }
+    }
 
 }
-
-
-
-
-
-
 
 //exclusive bullet action variables
 [System.Serializable]

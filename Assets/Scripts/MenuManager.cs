@@ -9,12 +9,12 @@ public class MenuManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-	    AssetBundle.LoadFromFile("Assets");
+	    AssetBundle.LoadFromFile("Assets/_Scenes");
 	}
 
     public void StartGame()
     {
-        SceneManager.LoadScene("LVL0");
+        SceneManager.LoadScene("NeilTysonFight");
     }
 
     public void ExitGame()
