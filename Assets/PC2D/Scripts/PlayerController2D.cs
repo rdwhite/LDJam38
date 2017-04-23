@@ -14,9 +14,9 @@ public class PlayerController2D : MonoBehaviour
     private bool _enableOneWayPlatforms;
     private bool _oneWayPlatformsAreWalls;
 
-    public HealthManager HealthManager;
-    public DamageManager DamageManager;
-    public ArmorManager ArmorManager;
+  [HideInInspector] public HealthManager HealthManager;
+  [HideInInspector] public DamageManager DamageManager;
+  [HideInInspector] public ArmorManager ArmorManager;
 
     // Use this for initialization
     void Start()

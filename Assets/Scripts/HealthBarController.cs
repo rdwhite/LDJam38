@@ -13,13 +13,13 @@ public class HealthBarController : MonoBehaviour {
 
 	void Awake () {
         healthBar = GetComponent<Slider>();
-        healthText = GetComponent<Text>();
+	    healthText = GetComponentInChildren<Text>();
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-	    healthBar.maxValue = playerHealthManager.MaxHp;
+	    healthBar.maxValue = playerHealthManager.MaxHp;a
 	    healthBar.value = playerHealthManager.currentHp;
         healthText.text = healthBar.value + "/" + healthBar.maxValue;
 	}
