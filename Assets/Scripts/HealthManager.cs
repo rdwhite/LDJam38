@@ -74,11 +74,14 @@ namespace Assets.Scripts
             var damageScript = other.gameObject.GetComponent<DamageManager>();
             if (damageScript != null)
             {
-                if ((damageScript.isFromEnemy && (EntityType == MobileType.Player || EntityType == MobileType.NPC)) ||
-                    (!damageScript.isFromEnemy && EntityType == MobileType.Enemy))
+                if (damageScript.damage < 0) Heal(-damageScript.damage);
+                else
                 {
-                    if (damageScript.damage < 0) Heal(damageScript.damage);
-                    else StartCoroutine(Damage(damageScript.damage, damageScript.damageType));
+                    if ((damageScript.isFromEnemy && (EntityType == MobileType.Player || EntityType == MobileType.NPC)) ||
+                        (!damageScript.isFromEnemy && EntityType == MobileType.Enemy))
+                    {                    
+                        StartCoroutine(Damage(damageScript.damage, damageScript.damageType));
+                    }
                 }
             }
         }
