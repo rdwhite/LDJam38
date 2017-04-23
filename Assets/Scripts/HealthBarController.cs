@@ -7,11 +7,13 @@ using UnityEngine.UI;
 public class HealthBarController : MonoBehaviour {
 
     // Use this for initialization
+    Text healthText;
     private Slider healthBar;
     public HealthManager playerHealthManager;
 
 	void Awake () {
         healthBar = GetComponent<Slider>();
+        healthText = GetComponent<Text>();
 	}
 	
 	// Update is called once per frame
@@ -19,5 +21,6 @@ public class HealthBarController : MonoBehaviour {
 	{
 	    healthBar.maxValue = playerHealthManager.MaxHp;
 	    healthBar.value = playerHealthManager.currentHp;
+        healthText.text = healthBar.value + "/" + healthBar.maxValue;
 	}
 }
