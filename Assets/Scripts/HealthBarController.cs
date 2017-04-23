@@ -19,7 +19,7 @@ public class HealthBarController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-	    healthBar.maxValue = playerHealthManager.MaxHp;a
+	    healthBar.maxValue = playerHealthManager.MaxHp;
 	    healthBar.value = playerHealthManager.currentHp;
         healthText.text = healthBar.value + "/" + healthBar.maxValue;
 	}
