@@ -343,6 +343,11 @@ public class Bullet : MonoBehaviour
             }
 
         }
+
+        if (other.gameObject.name == "PlayerController") {
+            
+        }
+
     }
 
    
