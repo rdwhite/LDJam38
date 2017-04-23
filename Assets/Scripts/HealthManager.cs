@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 
 namespace Assets.Scripts
@@ -25,7 +26,7 @@ namespace Assets.Scripts
         /// </summary>
         public MobileType EntityType = MobileType.Enemy;
 
-        public void Damage(int damageAmount, DamageType type)
+        public IEnumerator Damage(int damageAmount, DamageType type)
         {
             var armor = GetComponent<ArmorManager>();
             if (armor != null)
@@ -36,7 +37,12 @@ namespace Assets.Scripts
             {
                 currentHp = 0;
                 //dead
-                // Destroy(gameObject);
+                if (EntityType == MobileType.Player)
+                {
+                    GameManager.instance.PlayerHasControl = false;
+                    yield return new WaitForSeconds(5.0f);
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                }
             }
             else
             {
@@ -70,7 +76,7 @@ namespace Assets.Scripts
             {
                 if ((damageScript.isFromEnemy && (EntityType == MobileType.Player || EntityType == MobileType.NPC)) || (!damageScript.isFromEnemy && EntityType == MobileType.Enemy))
                 {
-                    Damage(damageScript.damage, damageScript.damageType);
+                    StartCoroutine(Damage(damageScript.damage, damageScript.damageType));
                 }
             }
         }
