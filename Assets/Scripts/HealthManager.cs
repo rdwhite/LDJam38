@@ -61,7 +61,7 @@ namespace Assets.Scripts
             currentHp = MaxHp;
         }
            
-        void OnCollisionEnter2D(Collision2D other)
+        void OnTriggerEnter2D(Collider2D other)
         {
            Debug.Log("Entering collision " + other.gameObject.tag);
             var damageScript = other.gameObject.GetComponent<DamageManager>();
