@@ -29,14 +29,14 @@ namespace Assets.Scripts
             {
                 if (negatedType.ResistanceAmount != 0)
                 {
-                    int resistAmount = negatedType.ResistanceAmount/100; // make it a percentage
+                    float resistAmount = negatedType.ResistanceAmount/100.0f; // make it a percentage
                     if (resistAmount < 0) // add more damage
                     {
-                        return Mathf.RoundToInt(damageAmount/resistAmount);
+                        return Mathf.RoundToInt(damageAmount + damageAmount*resistAmount);
                     }
                     else
                     {
-                        return Mathf.RoundToInt(damageAmount*resistAmount);
+                        return Mathf.RoundToInt(damageAmount - damageAmount*resistAmount);
                     }
                 }
             }

@@ -14,9 +14,9 @@ public class PlayerController2D : MonoBehaviour
     private bool _enableOneWayPlatforms;
     private bool _oneWayPlatformsAreWalls;
 
-    public HealthManager HealthManager;
-    public DamageManager DamageManager;
-    public ArmorManager ArmorManager;
+  [HideInInspector] public HealthManager HealthManager;
+  [HideInInspector] public DamageManager DamageManager;
+  [HideInInspector] public ArmorManager ArmorManager;
 
     // Use this for initialization
     void Start()
@@ -26,6 +26,7 @@ public class PlayerController2D : MonoBehaviour
         if (GameManager.instance.PlayerHealthManager == null) GameManager.instance.PlayerHealthManager = GetComponent<HealthManager>();        
         ArmorManager = GameManager.instance.resistances;
         HealthManager = GameManager.instance.PlayerHealthManager;
+        GameManager.instance.PlayerHasControl = true;
 
     }
 
@@ -53,11 +54,13 @@ public class PlayerController2D : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (Input.GetKeyUp(KeyCode.R))
         {
-            SceneManager.LoadScene("LVL0");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             return;
         }
+        if (!GameManager.instance.PlayerHasControl) return;
         // use last state to restore some ladder specific values
         if (_motor.motorState != PlatformerMotor2D.MotorState.FreedomState)
         {

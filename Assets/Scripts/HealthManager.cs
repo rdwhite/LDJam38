@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 
 namespace Assets.Scripts
@@ -25,17 +26,23 @@ namespace Assets.Scripts
         /// </summary>
         public MobileType EntityType = MobileType.Enemy;
 
-        public void Damage(int damageAmount, DamageType type)
+        public IEnumerator Damage(int damageAmount, DamageType type)
         {
-            var armor = gameObject.GetComponent<ArmorManager>();
+            var armor = GetComponent<ArmorManager>();
             if (armor != null)
             {
                 damageAmount = armor.CalculateDamage(damageAmount, type);
             }
             if (currentHp - damageAmount < 0)
             {
+                currentHp = 0;
                 //dead
-               // Destroy(gameObject);
+                if (EntityType == MobileType.Player)
+                {
+                    GameManager.instance.PlayerHasControl = false;
+                    yield return new WaitForSeconds(5.0f);
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                }
             }
             else
             {
@@ -67,9 +74,11 @@ namespace Assets.Scripts
             var damageScript = other.gameObject.GetComponent<DamageManager>();
             if (damageScript != null)
             {
-                if ((damageScript.isFromEnemy && (EntityType == MobileType.Player || EntityType == MobileType.NPC)) || (!damageScript.isFromEnemy && EntityType == MobileType.Enemy))
+                if ((damageScript.isFromEnemy && (EntityType == MobileType.Player || EntityType == MobileType.NPC)) ||
+                    (!damageScript.isFromEnemy && EntityType == MobileType.Enemy))
                 {
-                    Damage(damageScript.damage, damageScript.damageType);
+                    if (damageScript.damage < 0) Heal(damageScript.damage);
+                    else StartCoroutine(Damage(damageScript.damage, damageScript.damageType));
                 }
             }
         }

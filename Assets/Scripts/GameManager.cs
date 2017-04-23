@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public DamageType CurrentDamageType;
     [HideInInspector] public ArmorManager resistances;
 
+    public bool PlayerHasControl = false;
 	void Awake()
 	{
 	    if (instance == null) instance = this;
