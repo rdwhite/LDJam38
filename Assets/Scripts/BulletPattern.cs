@@ -153,7 +153,9 @@ public class BulletPattern : MonoBehaviour
         switch ((DirectionType)a.direction)
         {
             case (DirectionType.TargetPlayer):
-                temp.transform.LookAt(BulletManager.instance.player);
+                var diff = BulletManager.instance.player.position - temp.transform.position;
+                var angle = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+                temp.transform.rotation = Quaternion.Euler(0f, 0f, angle);
                 //var originalRot = t.rotation;
                 //var dotHeading = Vector3.Dot(temp.transform.up, BulletManager.instance.player.position - temp.transform.position);
 
@@ -171,11 +173,11 @@ public class BulletPattern : MonoBehaviour
                 break;
 
             case (DirectionType.Relative):
-                temp.transform.localRotation = t.localRotation * Quaternion.AngleAxis(-ang, Vector3.right);
+                temp.transform.localRotation = t.localRotation * Quaternion.AngleAxis(-ang, Vector2.right);
                 break;
 
             case (DirectionType.Sequence):
-                temp.transform.localRotation = prw.previousRotation * Quaternion.AngleAxis(-ang, Vector3.right);
+                temp.transform.localRotation = prw.previousRotation * Quaternion.AngleAxis(-ang, Vector2.right);
                 break;
         }
         //record this rotation for next Sequence Direction
@@ -195,7 +197,8 @@ public class BulletPattern : MonoBehaviour
             {
                 sequenceSpeed += spd;
                 temp.speed = sequenceSpeed;
-            } else
+            }
+            else
             {
                 sequenceSpeed = 0f;
                 temp.speed = spd;

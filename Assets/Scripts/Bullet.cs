@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEditor;
 
 [System.Serializable]
 public class Bullet : MonoBehaviour
@@ -47,7 +48,7 @@ public class Bullet : MonoBehaviour
 
     void FixedUpdate()
     {
-        var targetVelocity = tform.forward * speed;
+        var targetVelocity = tform.right * speed;
         // dont bother with vertical speed unless its been tampered with (see ChangeSpeedVertical..or was it SpeedChangeVertical?)
         if (useVertical)
         {
@@ -238,7 +239,11 @@ public class Bullet : MonoBehaviour
         switch (actions[i].direction)
         {
             case (DirectionType.TargetPlayer):
-                tform.LookAt(BulletManager.instance.player);
+                var diff = BulletManager.instance.player.position - tform.position;
+                var angle = Mathf.Atan2(diff.y, diff.x)*Mathf.Rad2Deg;
+                tform.rotation = Quaternion.Euler(0f, 0f, angle);
+               // tform.LookAt(BulletManager.instance.player);
+                //tform.LookAt(BulletManager.instance.player);
                 //var dotHeading = Vector3.Dot(tform.up, BulletManager.instance.player.position - tform.position);
                 //int dir;
                 //if (dotHeading > 0)
