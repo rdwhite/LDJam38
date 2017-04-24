@@ -85,6 +85,7 @@ public class PlayerController2D : MonoBehaviour
             FreedomStateRestore(_motor);
         }
 
+        var downpressed = Input.GetAxis(PC2D.Input.VERTICAL) < 0.0f;
         // Jump?
         // If you want to jump in ladders, leave it here, otherwise move it down
         if (Input.GetButtonDown(PC2D.Input.JUMP))
@@ -117,7 +118,7 @@ public class PlayerController2D : MonoBehaviour
         if (Input.GetAxis(PC2D.Input.VERTICAL) != 0)
         {
             bool up_pressed = Input.GetAxis(PC2D.Input.VERTICAL) > 0;
-            var downpressed = Input.GetAxis(PC2D.Input.VERTICAL) < 0.0f;
+            
             if (_motor.IsOnLadder())
             {
                 if (
@@ -132,7 +133,7 @@ public class PlayerController2D : MonoBehaviour
                 }
                 // if player hit up, while on the top do not enter in freeMode or a nasty short jump occurs
                 else
-                {
+                {                    
                     // example ladder behaviour
 
                     _motor.FreedomStateEnter(); // enter freedomState to disable gravity
