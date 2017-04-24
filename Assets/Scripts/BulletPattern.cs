@@ -54,6 +54,8 @@ public class BulletPattern : MonoBehaviour
     [SerializeField]
     public List<ActionFoldouts> btaFoldouts = new List<ActionFoldouts>();
 
+    private bool _currentlyFacingLeft = false;
+
 
     [SerializeField]
     public enum DirectionType { TargetPlayer, Absolute, Relative, Sequence };
@@ -103,16 +105,16 @@ public class BulletPattern : MonoBehaviour
     Bullet GetInstance(List<Bullet> arr, Transform tform, Bullet prefab)
     {
 
-        for (var i = 0; i < arr.Count; i++)
-        {
-            var tempGo = (arr[i] as Component).gameObject;
+        //for (var i = 0; i < arr.Count; i++)
+        //{
+        //    var tempGo = (arr[i] as Component).gameObject;
 
-            if (!tempGo.activeSelf)
-            {
-                tempGo.SetActive(true);
-                return arr[i];
-            }
-        }
+        //    if (!tempGo.activeSelf)
+        //    {
+        //        tempGo.SetActive(true);
+        //        return arr[i];
+        //    }
+        //}
 
         var temp = Instantiate(prefab, tform.position, tform.rotation) as Bullet;
         arr.Add(temp);
@@ -173,6 +175,14 @@ public class BulletPattern : MonoBehaviour
                 break;
 
             case (DirectionType.Absolute):
+                
+                Debug.Log("Current Angle" + ang + " Currently Facing:" + (_currentlyFacingLeft ? "Left" : "Right"));
+                if ((_currentlyFacingLeft && ang <= 90) || (!_currentlyFacingLeft && ang > 90))
+                {
+                    _currentlyFacingLeft = !_currentlyFacingLeft;
+                };
+                if (_currentlyFacingLeft) temp.transform.localScale = new Vector3(temp.transform.localScale.x, -temp.transform.localScale.y, temp.transform.localScale.z);
+                Debug.Log("Before Rotation! Current Angle" + ang + " Currently Facing:" + (_currentlyFacingLeft ? "Left" : "Right"));
                 temp.transform.localRotation = Quaternion.Euler(0, 0, ang);
                 break;
 

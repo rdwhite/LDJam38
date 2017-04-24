@@ -206,7 +206,7 @@ public class Bullet : MonoBehaviour
         if (go.activeSelf)
         {
             BulletManager.instance.bulletCount--;
-            go.SetActive(false);
+            Destroy(go);
         }
     }
 

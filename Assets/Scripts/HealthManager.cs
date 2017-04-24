@@ -70,7 +70,6 @@ namespace Assets.Scripts
            
         void OnTriggerEnter2D(Collider2D other)
         {
-           Debug.Log("Entering collision " + other.gameObject.tag);
             var damageScript = other.gameObject.GetComponent<DamageManager>();
             if (damageScript != null)
             {
