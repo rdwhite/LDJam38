@@ -162,7 +162,7 @@ public class BulletPattern : MonoBehaviour
             case (DirectionType.TargetPlayer):
                 var diff = BulletManager.instance.player.position - temp.transform.position;
                 var angle = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
-                temp.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+                temp.transform.localRotation = Quaternion.Euler(0f, 0f, angle);
                 //var originalRot = t.rotation;
                 //var dotHeading = Vector3.Dot(temp.transform.up, BulletManager.instance.player.position - temp.transform.position);
 
@@ -175,13 +175,7 @@ public class BulletPattern : MonoBehaviour
                 //temp.transform.rotation = originalRot * Quaternion.AngleAxis((dir * angleDif) - ang, Vector3.right);
                 break;
 
-            case (DirectionType.Absolute):
-                
-                if ((_currentlyFacingLeft && ang <= 90) || (!_currentlyFacingLeft && ang > 90))
-                {
-                    _currentlyFacingLeft = !_currentlyFacingLeft;
-                };
-                if (_currentlyFacingLeft) temp.transform.localScale = new Vector3(temp.transform.localScale.x, -temp.transform.localScale.y, temp.transform.localScale.z);
+            case (DirectionType.Absolute):                
                 temp.transform.localRotation = Quaternion.Euler(0, 0, ang);
                 break;
 
@@ -189,10 +183,16 @@ public class BulletPattern : MonoBehaviour
                 temp.transform.localRotation = t.localRotation * Quaternion.AngleAxis(-ang, Vector2.right);
                 break;
 
-            case (DirectionType.Sequence):
+            case (DirectionType.Sequence):                
                 temp.transform.localRotation = prw.previousRotation * Quaternion.AngleAxis(-ang, Vector2.right);
                 break;
         }
+        //rotate visual according to current angle
+        if ((_currentlyFacingLeft && ang <= 90) || (!_currentlyFacingLeft && ang > 90))
+        {
+            _currentlyFacingLeft = !_currentlyFacingLeft;
+        };
+        temp.setVisualRotation(temp.transform.localRotation.z, _currentlyFacingLeft);
         //record this rotation for next Sequence Direction
         prw.previousRotation = temp.transform.localRotation;
         //set the speed, either from creator's speed data

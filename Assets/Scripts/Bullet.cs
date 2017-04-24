@@ -31,9 +31,22 @@ public class Bullet : MonoBehaviour
     public int actionIndex = 0;
 
     [SerializeField]
+    public bool hasAnimation = false;
+    [SerializeField]
+    public string animationName = "Rotate";
+    [SerializeField]
+    public int AnimationSpeed;
+    
+    [SerializeField]
+    public GameObject visualChild;
+
+
+    [SerializeField]
     public BulletPattern master;
 
     private DamageManager damageManager;
+
+    private Animator animator;
 
     void Awake()
     {
@@ -45,6 +58,10 @@ public class Bullet : MonoBehaviour
         //make sure this bullet knows whos his daddy
         //actually its so 100 bullet objects dont clutter the hierarchy window
 
+        if (hasAnimation)
+        {
+            animator = GetComponent<Animator>();
+        }
         tform.parent = BulletManager.instance.transform;
     }
 
@@ -52,6 +69,26 @@ public class Bullet : MonoBehaviour
     public void overrideDamage(int newDamage)
     {
         damageManager.damage = newDamage;
+    }
+
+    private bool _currentlyFacingLeft;
+
+    void Update()
+    {
+        //if (hasAnimation)
+        //{
+        //    if (rb.velocity.x <= -0.1f)
+        //    {
+        //        _currentlyFacingLeft = true;
+        //    }
+        //    else if (rb.velocity.x >= 0.1f)
+        //    {
+        //        _currentlyFacingLeft = false;
+        //    }
+        //    animator.Play(animationName);
+        //    Vector3 rotateDir = _currentlyFacingLeft ? Vector3.forward : Vector3.back;
+        //    transform.Rotate(rotateDir, AnimationSpeed * Time.deltaTime);
+        //}
     }
     void FixedUpdate()
     {
@@ -77,6 +114,14 @@ public class Bullet : MonoBehaviour
             Deactivate();
 
 
+    }
+
+    public void setVisualRotation(float ang, bool facingLeft)
+    {
+     
+        if (facingLeft) visualChild.transform.localScale = new Vector3(visualChild.transform.localScale.x, -visualChild.transform.localScale.y, visualChild.transform.localScale.z);
+        //set visual child rotation to angle
+        visualChild.transform.localRotation = Quaternion.Euler(0, 0, ang);
     }
 
 
