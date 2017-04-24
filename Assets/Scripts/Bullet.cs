@@ -60,7 +60,7 @@ public class Bullet : MonoBehaviour
 
         if (hasAnimation)
         {
-            animator = GetComponent<Animator>();
+            animator = visualChild.GetComponent<Animator>();
         }
         tform.parent = BulletManager.instance.transform;
     }
@@ -75,20 +75,20 @@ public class Bullet : MonoBehaviour
 
     void Update()
     {
-        //if (hasAnimation)
-        //{
-        //    if (rb.velocity.x <= -0.1f)
-        //    {
-        //        _currentlyFacingLeft = true;
-        //    }
-        //    else if (rb.velocity.x >= 0.1f)
-        //    {
-        //        _currentlyFacingLeft = false;
-        //    }
-        //    animator.Play(animationName);
-        //    Vector3 rotateDir = _currentlyFacingLeft ? Vector3.forward : Vector3.back;
-        //    transform.Rotate(rotateDir, AnimationSpeed * Time.deltaTime);
-        //}
+        if (hasAnimation)
+        {
+            if (rb.velocity.x <= -0.1f)
+            {
+                _currentlyFacingLeft = true;
+            }
+            else if (rb.velocity.x >= 0.1f)
+            {
+                _currentlyFacingLeft = false;
+            }
+            animator.Play(animationName);
+            Vector3 rotateDir = _currentlyFacingLeft ? Vector3.forward : Vector3.back;
+            transform.Rotate(rotateDir, AnimationSpeed * Time.deltaTime);
+        }
     }
     void FixedUpdate()
     {
@@ -119,7 +119,7 @@ public class Bullet : MonoBehaviour
     public void setVisualRotation(float ang, bool facingLeft)
     {
      
-        if (facingLeft) visualChild.transform.localScale = new Vector3(visualChild.transform.localScale.x, -visualChild.transform.localScale.y, visualChild.transform.localScale.z);
+        if (facingLeftt) visualChild.transform.localScale = new Vector3(visualChild.transform.localScale.x, -visualChild.transform.localScale.y, visualChild.transform.localScale.z);
         //set visual child rotation to angle
         visualChild.transform.localRotation = Quaternion.Euler(0, 0, ang);
     }
