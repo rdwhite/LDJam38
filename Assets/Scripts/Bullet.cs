@@ -49,7 +49,10 @@ public class Bullet : MonoBehaviour
     }
 
 
-
+    public void overrideDamage(int newDamage)
+    {
+        damageManager.damage = newDamage;
+    }
     void FixedUpdate()
     {
         var targetVelocity = tform.right * speed;

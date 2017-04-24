@@ -176,13 +176,11 @@ public class BulletPattern : MonoBehaviour
 
             case (DirectionType.Absolute):
                 
-                Debug.Log("Current Angle" + ang + " Currently Facing:" + (_currentlyFacingLeft ? "Left" : "Right"));
                 if ((_currentlyFacingLeft && ang <= 90) || (!_currentlyFacingLeft && ang > 90))
                 {
                     _currentlyFacingLeft = !_currentlyFacingLeft;
                 };
                 if (_currentlyFacingLeft) temp.transform.localScale = new Vector3(temp.transform.localScale.x, -temp.transform.localScale.y, temp.transform.localScale.z);
-                Debug.Log("Before Rotation! Current Angle" + ang + " Currently Facing:" + (_currentlyFacingLeft ? "Left" : "Right"));
                 temp.transform.localRotation = Quaternion.Euler(0, 0, ang);
                 break;
 
@@ -228,6 +226,7 @@ public class BulletPattern : MonoBehaviour
             if (bt.rankSpeed)
                 temp.speed += BulletManager.instance.rank * bt.speed.z;
         }
+        temp.overrideDamage(bt.bulletDamage);
 
         //set the bullets actions array, so it can perform actions later if it has any
         temp.actions = bt.actions;
@@ -458,6 +457,9 @@ public class BulletTag
     public bool rankSpeed = false;
     [SerializeField]
     public int prefabIndex = 0;
+
+    [SerializeField]
+    public int bulletDamage = 1;
 
     [SerializeField]
     public BulletAction[] actions;

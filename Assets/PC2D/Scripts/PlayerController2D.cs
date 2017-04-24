@@ -73,7 +73,11 @@ public class PlayerController2D : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             return;
         }
-        if (!GameManager.instance.PlayerHasControl) return;
+        if (!GameManager.instance.PlayerHasControl)
+        {
+            _motor.enabled = false;
+            return;
+        }
         // use last state to restore some ladder specific values
         if (_motor.motorState != PlatformerMotor2D.MotorState.FreedomState)
         {

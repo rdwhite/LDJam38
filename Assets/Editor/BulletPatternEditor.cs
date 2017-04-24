@@ -441,7 +441,7 @@ public class BulletPatternEditor : Editor
                         bt.speed.z = EditorGUILayout.FloatField("RankSpeed", bt.speed.z);
                     GUILayout.EndHorizontal();
                     bt.prefabIndex = EditorGUILayout.IntSlider("PrefabIndex", bt.prefabIndex, 0, bm.bulletPrefab.Length - 1);
-
+                    bt.bulletDamage = EditorGUILayout.IntField("Bullet Damage", bt.bulletDamage);
                     if (GUI.changed)
                         SceneView.RepaintAll();
 
