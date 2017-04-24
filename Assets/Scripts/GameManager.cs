@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public HealthManager PlayerHealthManager;
     [HideInInspector] public DamageType CurrentDamageType;
     [HideInInspector] public ArmorManager resistances;
+    [HideInInspector] public bool NeilTysonDefeated = false;
 
     public bool PlayerHasControl = false;
 	void Awake()

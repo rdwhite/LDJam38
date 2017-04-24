@@ -92,6 +92,10 @@ public class Bullet : MonoBehaviour
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
             return;
         }
+        if (GameManager.instance.NeilTysonDefeated && damageManager.isFromEnemy)
+        {
+            Destroy(gameObject);
+        }
         var targetVelocity = tform.right * speed;
         // dont bother with vertical speed unless its been tampered with (see ChangeSpeedVertical..or was it SpeedChangeVertical?)
         if (useVertical)
