@@ -58,10 +58,10 @@ public class Bullet : MonoBehaviour
         //make sure this bullet knows whos his daddy
         //actually its so 100 bullet objects dont clutter the hierarchy window
 
-        if (hasAnimation)
-        {
-            animator = visualChild.GetComponent<Animator>();
-        }
+        //if (hasAnimation)
+        //{
+        //    animator = visualChild.GetComponent<Animator>();
+        //}
         tform.parent = BulletManager.instance.transform;
     }
 
@@ -77,9 +77,12 @@ public class Bullet : MonoBehaviour
     {
         if (hasAnimation)
         {
-            animator.Play(animationName);
-            Vector3 rotateDir = _currentlyFacingLeft ? Vector3.forward : Vector3.back;
-            transform.Rotate(rotateDir, AnimationSpeed * Time.deltaTime);
+            // animator.Play(animationName);
+            if (GameManager.instance.PlayerHasControl)
+            {
+                Vector3 rotateDir = _currentlyFacingLeft ? Vector3.forward : Vector3.back;
+                visualChild.transform.Rotate(rotateDir, AnimationSpeed * Time.deltaTime);
+            }
         }
     }
     void FixedUpdate()
@@ -320,7 +323,7 @@ public class Bullet : MonoBehaviour
         }
 
 
-        
+
         //Sequence has its own thing going on, continually turning a set amount until time is up
         if (actions[i].direction == DirectionType.Sequence)
         {

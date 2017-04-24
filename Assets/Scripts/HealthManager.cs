@@ -37,12 +37,25 @@ namespace Assets.Scripts
             {
                 currentHp = 0;
                 //dead
-                if (EntityType == MobileType.Player)
+                switch (EntityType)
                 {
-                    GameManager.instance.PlayerHasControl = false;
-                    yield return new WaitForSeconds(5.0f);
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                    case MobileType.Player:
+                        GameManager.instance.PlayerHasControl = false;
+                        yield return new WaitForSeconds(5.0f);
+                        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                        break;
+                    case MobileType.Enemy:
+                        var enemyScript = GetComponent<EnemyScript>();
+                        if (enemyScript != null)
+                        {
+                            enemyScript.playDeath();
+                        } else
+                        {
+                            Destroy(gameObject);
+                        }
+                        break;
                 }
+                 
             }
             else
             {
