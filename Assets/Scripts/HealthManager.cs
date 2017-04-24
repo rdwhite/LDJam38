@@ -67,24 +67,28 @@ namespace Assets.Scripts
         {
             currentHp = MaxHp;
         }
-           
+
         void OnTriggerEnter2D(Collider2D other)
         {
-            var damageScript = other.gameObject.GetComponent<DamageManager>();
-            if (damageScript != null)
+            if (GameManager.instance.PlayerHasControl)
             {
-                if (damageScript.damage < 0) Heal(-damageScript.damage);
-                else
+                var damageScript = other.gameObject.GetComponent<DamageManager>();
+                if (damageScript != null)
                 {
-                    if ((damageScript.isFromEnemy && (EntityType == MobileType.Player || EntityType == MobileType.NPC)) ||
-                        (!damageScript.isFromEnemy && EntityType == MobileType.Enemy))
-                    {                    
-                        StartCoroutine(Damage(damageScript.damage, damageScript.damageType));
+                    if (damageScript.damage < 0) Heal(-damageScript.damage);
+                    else
+                    {
+                        if ((damageScript.isFromEnemy && (EntityType == MobileType.Player || EntityType == MobileType.NPC)) ||
+                            (!damageScript.isFromEnemy && EntityType == MobileType.Enemy))
+                        {
+                            StartCoroutine(Damage(damageScript.damage, damageScript.damageType));
+                        }
                     }
                 }
             }
         }
 
-        [HideInInspector] public int currentHp;
+        [HideInInspector]
+        public int currentHp;
     }
 }
