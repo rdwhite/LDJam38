@@ -36,7 +36,7 @@ public class Bullet : MonoBehaviour
     public string animationName = "Rotate";
     [SerializeField]
     public int AnimationSpeed;
-    
+
     [SerializeField]
     public GameObject visualChild;
 
@@ -77,14 +77,6 @@ public class Bullet : MonoBehaviour
     {
         if (hasAnimation)
         {
-            if (rb.velocity.x <= -0.1f)
-            {
-                _currentlyFacingLeft = true;
-            }
-            else if (rb.velocity.x >= 0.1f)
-            {
-                _currentlyFacingLeft = false;
-            }
             animator.Play(animationName);
             Vector3 rotateDir = _currentlyFacingLeft ? Vector3.forward : Vector3.back;
             transform.Rotate(rotateDir, AnimationSpeed * Time.deltaTime);
@@ -118,8 +110,8 @@ public class Bullet : MonoBehaviour
 
     public void setVisualRotation(float ang, bool facingLeft)
     {
-     
-        if (facingLeft) visualChild.transform.localScale = new Vector3(visualChild.transform.localScale.x, -visualChild.transform.localScale.y, visualChild.transform.localScale.z);
+        _currentlyFacingLeft = facingLeft;
+        if (_currentlyFacingLeft) visualChild.transform.localScale = new Vector3(visualChild.transform.localScale.x, -visualChild.transform.localScale.y, visualChild.transform.localScale.z);
         //set visual child rotation to angle
         visualChild.transform.localRotation = Quaternion.Euler(0, 0, ang);
     }
@@ -304,7 +296,7 @@ public class Bullet : MonoBehaviour
             case (DirectionType.TargetPlayer):
                 var diff = BulletManager.instance.player.position - tform.position;
                 var angle = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
-                tform.rotation = Quaternion.Euler(0f, 0f, angle);
+                newRot = Quaternion.Euler(0f, 0f, angle);
                 // tform.LookAt(BulletManager.instance.player);
                 //tform.LookAt(BulletManager.instance.player);
                 //var dotHeading = Vector3.Dot(tform.up, BulletManager.instance.player.position - tform.position);
@@ -318,7 +310,7 @@ public class Bullet : MonoBehaviour
                 break;
 
             case (DirectionType.Absolute):
-                newRot = Quaternion.Euler(-(ang - 270), 270, 0);
+                newRot = Quaternion.Euler(0, 0, ang);
                 break;
 
             case (DirectionType.Relative):
@@ -327,6 +319,8 @@ public class Bullet : MonoBehaviour
 
         }
 
+
+        
         //Sequence has its own thing going on, continually turning a set amount until time is up
         if (actions[i].direction == DirectionType.Sequence)
         {
@@ -335,6 +329,11 @@ public class Bullet : MonoBehaviour
             while (t < d)
             {
                 tform.localRotation *= newRot;
+                if ((_currentlyFacingLeft && tform.localRotation.z <= 90) || (!_currentlyFacingLeft && tform.localRotation.z > 90))
+                {
+                    _currentlyFacingLeft = !_currentlyFacingLeft;
+                };
+                setVisualRotation(tform.localRotation.z, _currentlyFacingLeft);
                 t += Time.deltaTime;
                 yield return new WaitForFixedUpdate();
             }
@@ -345,12 +344,21 @@ public class Bullet : MonoBehaviour
             while (t < d)
             {
                 tform.localRotation = Quaternion.Slerp(originalRot, newRot, t / d);
+                if ((_currentlyFacingLeft && tform.localRotation.z <= 90) || (!_currentlyFacingLeft && tform.localRotation.z > 90))
+                {
+                    _currentlyFacingLeft = !_currentlyFacingLeft;
+                };
+                setVisualRotation(tform.localRotation.z, _currentlyFacingLeft);
                 t += Time.deltaTime;
                 yield return new WaitForFixedUpdate();
             }
-
-            tform.localRotation = newRot;
         }
+        tform.localRotation = newRot;
+        if ((_currentlyFacingLeft && newRot.z <= 90) || (!_currentlyFacingLeft && newRot.z > 90))
+        {
+            _currentlyFacingLeft = !_currentlyFacingLeft;
+        };
+        setVisualRotation(tform.localRotation.z, _currentlyFacingLeft);
     }
 
     //its basically the same as the above except without rotations
