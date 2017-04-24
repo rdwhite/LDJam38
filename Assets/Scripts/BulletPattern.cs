@@ -33,6 +33,9 @@ public class BulletPattern : MonoBehaviour
     [SerializeField]
     public float waitBeforeRepeating = 5f;
 
+    [SerializeField]
+    public bool isAutomated = true;
+
 
     //These belong in the Editor class, as they control whether or not the GUI Foldouts are open or closed
     //However by putting them here they will actually SAVE whether or not they are open after deselecting the object
@@ -64,7 +67,8 @@ public class BulletPattern : MonoBehaviour
     //get the ball rolling
     void Start()
     {
-        StartCoroutine(InitiateFire());
+        if (isAutomated)
+            StartCoroutine(InitiateFire());
     }
 
     //resume if the script was disabled then enabled, the bool prevents 2 calls to InstantiateFire on first startup
@@ -169,7 +173,7 @@ public class BulletPattern : MonoBehaviour
                 break;
 
             case (DirectionType.Absolute):
-                temp.transform.localRotation = Quaternion.Euler(-(ang - 270), 270, 0);
+                temp.transform.localRotation = Quaternion.Euler(0, 0, ang);
                 break;
 
             case (DirectionType.Relative):

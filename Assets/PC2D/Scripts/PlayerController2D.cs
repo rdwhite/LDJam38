@@ -17,6 +17,7 @@ public class PlayerController2D : MonoBehaviour
   [HideInInspector] public HealthManager HealthManager;
   [HideInInspector] public DamageManager DamageManager;
   [HideInInspector] public ArmorManager ArmorManager;
+    [HideInInspector] public BulletPattern BulletPattern; 
 
     // Use this for initialization
     void Start()
@@ -27,6 +28,7 @@ public class PlayerController2D : MonoBehaviour
         ArmorManager = GameManager.instance.resistances;
         HealthManager = GameManager.instance.PlayerHealthManager;
         GameManager.instance.PlayerHasControl = true;
+        BulletPattern = GetComponent<BulletPattern>();
 
     }
 
@@ -51,10 +53,21 @@ public class PlayerController2D : MonoBehaviour
         _motor.oneWayPlatformsAreWalls = _oneWayPlatformsAreWalls;
     }
 
+    private bool _currentFacingLeft = false;
+
     // Update is called once per frame
     void Update()
     {
-        
+
+        if (_motor.velocity.x <= -0.1f)
+        {
+            _currentFacingLeft = true;
+        }
+        else if (_motor.velocity.x >= 0.1f)
+        {
+            _currentFacingLeft = false;
+        }
+
         if (Input.GetKeyUp(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -138,7 +151,25 @@ public class PlayerController2D : MonoBehaviour
         }
         if (Input.GetButtonDown(PC2D.Input.DASH))
         {
-            _motor.Dash();
+            fireGun();
         }
+    }
+
+    private void fireGun()
+    {
+        FireTag tag = new FireTag();
+        tag.actions = new FireAction[]
+        {
+            new FireAction()
+            {
+                type = FireActionType.Fire,
+                direction = DirectionType.Absolute,
+                angle = _currentFacingLeft? new Vector3(180, 0, 0) : new Vector3(0, 0, 0),
+                bulletTagIndex = 1,
+                speed = new Vector3(20, 0, 0),
+                overwriteBulletSpeed = true
+            }
+        };
+        BulletPattern.Fire(transform, tag.actions[0], tag.param, tag.prw);
     }
 }

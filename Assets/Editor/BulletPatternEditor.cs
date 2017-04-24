@@ -35,6 +35,8 @@ public class BulletPatternEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        bp.isAutomated = EditorGUILayout.Toggle("IsAutomated", bp.isAutomated);
+        EditorGUILayout.Space();
         FireTagsGUI();
         BulletTagsGUI();
 
@@ -43,6 +45,7 @@ public class BulletPatternEditor : Editor
         EditorGUIUtility.fieldWidth = 130;
 
         bp.waitBeforeRepeating = EditorGUILayout.FloatField("WaitBeforeRepeat", bp.waitBeforeRepeating);
+       
         bm.rank = EditorGUILayout.Slider("Rank", bm.rank, 0, 1);
 
         // temporary fix for losing prefab inspector fields when entering play

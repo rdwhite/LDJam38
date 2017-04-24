@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts;
 using UnityEditor;
 
 [System.Serializable]
@@ -32,11 +33,14 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     public BulletPattern master;
 
+    private DamageManager damageManager;
+
     void Awake()
     {
         go = gameObject;
         tform = transform;
         rb = GetComponent<Rigidbody2D>();
+        damageManager = GetComponent<DamageManager>();
 
         //make sure this bullet knows whos his daddy
         //actually its so 100 bullet objects dont clutter the hierarchy window
@@ -341,7 +345,7 @@ public class Bullet : MonoBehaviour
     // this process MAY be too intensive for iPhone, but then it does keep bullet number under control
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Boundary") || other.name == "PlayerController")
+        if (other.CompareTag("Boundary") || (other.name == "PlayerController" && damageManager.isFromEnemy))
         {
                 Deactivate();
         }
@@ -349,7 +353,7 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("PlayerController"))
+        if (damageManager.isFromEnemy && other.gameObject.CompareTag("PlayerController"))
         {
             Deactivate();
         }
