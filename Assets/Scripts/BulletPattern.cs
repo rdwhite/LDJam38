@@ -93,6 +93,7 @@ public class BulletPattern : MonoBehaviour
 
         while (true)
         {
+            if (GameManager.instance.PlayerHasControl)
             yield return StartCoroutine(RunFire(0));
             yield return new WaitForSeconds(waitBeforeRepeating * BulletManager.instance.timePerFrame);
         }

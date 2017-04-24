@@ -40,9 +40,8 @@ public class BulletManager : MonoBehaviour
             bullets.Add(new BulletList());
         }
     }
-
-
 }
+
 
 
 [System.Serializable]

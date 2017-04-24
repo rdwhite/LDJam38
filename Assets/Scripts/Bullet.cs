@@ -55,6 +55,11 @@ public class Bullet : MonoBehaviour
     }
     void FixedUpdate()
     {
+        if (!GameManager.instance.PlayerHasControl)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            return;
+        }
         var targetVelocity = tform.right * speed;
         // dont bother with vertical speed unless its been tampered with (see ChangeSpeedVertical..or was it SpeedChangeVertical?)
         if (useVertical)
@@ -68,8 +73,8 @@ public class Bullet : MonoBehaviour
         // look at me tempting you like this 
 
         lifetime += Time.deltaTime;
-        if(lifetime > BulletManager.instance.bulletLifespan)
-        Deactivate();
+        if (lifetime > BulletManager.instance.bulletLifespan)
+            Deactivate();
 
 
     }
@@ -79,47 +84,50 @@ public class Bullet : MonoBehaviour
     {
         for (actionIndex = 0; actionIndex < actions.Length; actionIndex++)
         {
-            switch (actions[actionIndex].type)
+            if (GameManager.instance.PlayerHasControl)
             {
-                case (BulletActionType.Wait):
-                    float waitT;
-                    if (actions[actionIndex].randomWait)
-                        waitT = Random.Range(actions[actionIndex].waitTime.x, actions[actionIndex].waitTime.y);
-                    else
-                        waitT = actions[actionIndex].waitTime.x;
-                    if (actions[actionIndex].rankWait)
-                        waitT += BulletManager.instance.rank * actions[actionIndex].waitTime.z;
-                    waitT *= BulletManager.instance.timePerFrame;
-                    yield return new WaitForSeconds(waitT);
-                    break;
-                case (BulletActionType.ChangeDirection):
-                    if (actions[actionIndex].waitForChange)
-                        yield return StartCoroutine(ChangeDirection(actionIndex));
-                    else
-                        StartCoroutine(ChangeDirection(actionIndex));
-                    break;
-                case (BulletActionType.ChangeSpeed):
-                    if (actions[actionIndex].waitForChange)
-                        yield return StartCoroutine(ChangeSpeed(actionIndex, false));
-                    else
-                        StartCoroutine(ChangeSpeed(actionIndex, false));
-                    break;
-                case (BulletActionType.StartRepeat):
-                    yield return StartCoroutine(RunNestedActions());
-                    break;
-                case (BulletActionType.Fire):
-                    if (master != null)
-                        master.Fire(tform, actions[actionIndex], param, prw);
-                    break;
-                case (BulletActionType.VerticalChangeSpeed):
-                    if (actions[actionIndex].waitForChange)
-                        yield return StartCoroutine(ChangeSpeed(actionIndex, true));
-                    else
-                        StartCoroutine(ChangeSpeed(actionIndex, true));
-                    break;
-                case (BulletActionType.Deactivate):
-                    Deactivate();
-                    break;
+                switch (actions[actionIndex].type)
+                {
+                    case (BulletActionType.Wait):
+                        float waitT;
+                        if (actions[actionIndex].randomWait)
+                            waitT = Random.Range(actions[actionIndex].waitTime.x, actions[actionIndex].waitTime.y);
+                        else
+                            waitT = actions[actionIndex].waitTime.x;
+                        if (actions[actionIndex].rankWait)
+                            waitT += BulletManager.instance.rank * actions[actionIndex].waitTime.z;
+                        waitT *= BulletManager.instance.timePerFrame;
+                        yield return new WaitForSeconds(waitT);
+                        break;
+                    case (BulletActionType.ChangeDirection):
+                        if (actions[actionIndex].waitForChange)
+                            yield return StartCoroutine(ChangeDirection(actionIndex));
+                        else
+                            StartCoroutine(ChangeDirection(actionIndex));
+                        break;
+                    case (BulletActionType.ChangeSpeed):
+                        if (actions[actionIndex].waitForChange)
+                            yield return StartCoroutine(ChangeSpeed(actionIndex, false));
+                        else
+                            StartCoroutine(ChangeSpeed(actionIndex, false));
+                        break;
+                    case (BulletActionType.StartRepeat):
+                        yield return StartCoroutine(RunNestedActions());
+                        break;
+                    case (BulletActionType.Fire):
+                        if (master != null)
+                            master.Fire(tform, actions[actionIndex], param, prw);
+                        break;
+                    case (BulletActionType.VerticalChangeSpeed):
+                        if (actions[actionIndex].waitForChange)
+                            yield return StartCoroutine(ChangeSpeed(actionIndex, true));
+                        else
+                            StartCoroutine(ChangeSpeed(actionIndex, true));
+                        break;
+                    case (BulletActionType.Deactivate):
+                        Deactivate();
+                        break;
+                }
             }
         }
     }
@@ -137,57 +145,60 @@ public class Bullet : MonoBehaviour
 
         for (var y = 0; y < repeatC; y++)
         {
-            while (actions[actionIndex].type != BulletActionType.EndRepeat)
+            if (GameManager.instance.PlayerHasControl)
             {
-                switch (actions[actionIndex].type)
+                while (actions[actionIndex].type != BulletActionType.EndRepeat)
                 {
-                    case (BulletActionType.Wait):
-                        float waitT;
-                        if (actions[actionIndex].randomWait)
-                            waitT = Random.Range(actions[actionIndex].waitTime.x, actions[actionIndex].waitTime.y);
-                        else
-                            waitT = actions[actionIndex].waitTime.x;
-                        if (actions[actionIndex].rankWait)
-                            waitT += BulletManager.instance.rank * actions[actionIndex].waitTime.z;
-                        waitT *= BulletManager.instance.timePerFrame;
-                        yield return new WaitForSeconds(waitT);
-                        break;
-                    case (BulletActionType.ChangeDirection):
-                        if (actions[actionIndex].waitForChange)
-                            yield return ChangeDirection(actionIndex);
-                        else
-                            StartCoroutine(ChangeDirection(actionIndex));
-                        break;
-                    case (BulletActionType.ChangeSpeed):
-                        if (actions[actionIndex].waitForChange)
-                            yield return ChangeSpeed(actionIndex, false);
-                        else
-                            StartCoroutine(ChangeSpeed(actionIndex, false));
-                        break;
-                    case (BulletActionType.EndRepeat):
-                        yield return RunNestedActions();
-                        break;
-                    case (BulletActionType.Fire):
-                        if (master != null)
-                            master.Fire(tform, actions[actionIndex], param, prw);
-                        break;
-                    case (BulletActionType.VerticalChangeSpeed):
-                        if (actions[actionIndex].waitForChange)
-                            yield return ChangeSpeed(actionIndex, true);
-                        else
-                            StartCoroutine(ChangeSpeed(actionIndex, true));
-                        break;
-                    case (BulletActionType.Deactivate):
-                        Deactivate();
-                        break;
+                    switch (actions[actionIndex].type)
+                    {
+                        case (BulletActionType.Wait):
+                            float waitT;
+                            if (actions[actionIndex].randomWait)
+                                waitT = Random.Range(actions[actionIndex].waitTime.x, actions[actionIndex].waitTime.y);
+                            else
+                                waitT = actions[actionIndex].waitTime.x;
+                            if (actions[actionIndex].rankWait)
+                                waitT += BulletManager.instance.rank * actions[actionIndex].waitTime.z;
+                            waitT *= BulletManager.instance.timePerFrame;
+                            yield return new WaitForSeconds(waitT);
+                            break;
+                        case (BulletActionType.ChangeDirection):
+                            if (actions[actionIndex].waitForChange)
+                                yield return ChangeDirection(actionIndex);
+                            else
+                                StartCoroutine(ChangeDirection(actionIndex));
+                            break;
+                        case (BulletActionType.ChangeSpeed):
+                            if (actions[actionIndex].waitForChange)
+                                yield return ChangeSpeed(actionIndex, false);
+                            else
+                                StartCoroutine(ChangeSpeed(actionIndex, false));
+                            break;
+                        case (BulletActionType.EndRepeat):
+                            yield return RunNestedActions();
+                            break;
+                        case (BulletActionType.Fire):
+                            if (master != null)
+                                master.Fire(tform, actions[actionIndex], param, prw);
+                            break;
+                        case (BulletActionType.VerticalChangeSpeed):
+                            if (actions[actionIndex].waitForChange)
+                                yield return ChangeSpeed(actionIndex, true);
+                            else
+                                StartCoroutine(ChangeSpeed(actionIndex, true));
+                            break;
+                        case (BulletActionType.Deactivate):
+                            Deactivate();
+                            break;
+                    }
+
+                    actionIndex++;
+
                 }
 
-                actionIndex++;
-
+                endIndex = actionIndex;
+                actionIndex = startIndex + 1;
             }
-
-            endIndex = actionIndex;
-            actionIndex = startIndex + 1;
         }
 
         actionIndex = endIndex;
@@ -247,9 +258,9 @@ public class Bullet : MonoBehaviour
         {
             case (DirectionType.TargetPlayer):
                 var diff = BulletManager.instance.player.position - tform.position;
-                var angle = Mathf.Atan2(diff.y, diff.x)*Mathf.Rad2Deg;
+                var angle = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
                 tform.rotation = Quaternion.Euler(0f, 0f, angle);
-               // tform.LookAt(BulletManager.instance.player);
+                // tform.LookAt(BulletManager.instance.player);
                 //tform.LookAt(BulletManager.instance.player);
                 //var dotHeading = Vector3.Dot(tform.up, BulletManager.instance.player.position - tform.position);
                 //int dir;
@@ -350,7 +361,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.CompareTag("Boundary") || (other.name == "PlayerController" && damageManager.isFromEnemy))
         {
-                Deactivate();
+            Deactivate();
         }
     }
 

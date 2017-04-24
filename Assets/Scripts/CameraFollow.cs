@@ -21,6 +21,7 @@ public class CameraFollow : MonoBehaviour
     // LateUpdate is called after Update each frame
     void LateUpdate()
     {
+        if (!GameManager.instance.PlayerHasControl) return;
         // Set the position of the camera's transform to be the same as the player's, but offset by the calculated offset distance.
         tform.position = player.transform.position + offset;
     }
