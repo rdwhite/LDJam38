@@ -119,7 +119,7 @@ public class Bullet : MonoBehaviour
     public void setVisualRotation(float ang, bool facingLeft)
     {
      
-        if (facingLeftt) visualChild.transform.localScale = new Vector3(visualChild.transform.localScale.x, -visualChild.transform.localScale.y, visualChild.transform.localScale.z);
+        if (facingLeft) visualChild.transform.localScale = new Vector3(visualChild.transform.localScale.x, -visualChild.transform.localScale.y, visualChild.transform.localScale.z);
         //set visual child rotation to angle
         visualChild.transform.localRotation = Quaternion.Euler(0, 0, ang);
     }
