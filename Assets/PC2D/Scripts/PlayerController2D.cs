@@ -166,7 +166,7 @@ public class PlayerController2D : MonoBehaviour
                 direction = DirectionType.Absolute,
                 angle = _currentFacingLeft? new Vector3(180, 0, 0) : new Vector3(0, 0, 0),
                 bulletTagIndex = 1,
-                speed = new Vector3(20, 0, 0),
+                speed = new Vector3(90, 0, 0),
                 overwriteBulletSpeed = true
             }
         };
