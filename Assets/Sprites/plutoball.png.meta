@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d7681bd313d3041cbb88f50a2a2159a9
-timeCreated: 1493080697
+guid: 79037d1b4bd714f919000b24195049c7
+timeCreated: 1493080836
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: pluto-smile_0
+    21300000: plutoball_0
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -35,7 +35,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -119,7 +119,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pluto-smile_0
+      name: plutoball_0
       rect:
         serializedVersion: 2
         x: 5

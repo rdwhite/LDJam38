@@ -1,10 +1,11 @@
 fileFormatVersion: 2
-guid: d7681bd313d3041cbb88f50a2a2159a9
-timeCreated: 1493080697
+guid: 08921ac50ae4447f7b7553d5f9053833
+timeCreated: 1493080963
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: pluto-smile_0
+    21300000: plutoballanim_0
+    21300002: plutoballanim_1
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -119,10 +120,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pluto-smile_0
+      name: plutoballanim_0
       rect:
         serializedVersion: 2
         x: 5
+        y: 13
+        width: 40
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: plutoballanim_1
+      rect:
+        serializedVersion: 2
+        x: 55
         y: 13
         width: 40
         height: 34
