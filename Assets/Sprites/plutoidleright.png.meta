@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 2e9d0c3e2e1df493db13769f7f2ab1f1
-timeCreated: 1493079638
+guid: 507f8ba0321c041a1b55c8c7fc930cd4
+timeCreated: 1493079582
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: plutowalkright_0
-    21300002: plutowalkright_1
+    21300000: plutoidleright_0
+    21300002: plutoidleright_1
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -120,7 +120,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: plutowalkright_0
+      name: plutoidleright_0
       rect:
         serializedVersion: 2
         x: 5
@@ -133,13 +133,13 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: plutowalkright_1
+      name: plutoidleright_1
       rect:
         serializedVersion: 2
         x: 55
         y: 2
         width: 40
-        height: 45
+        height: 43
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
