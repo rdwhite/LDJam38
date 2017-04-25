@@ -419,7 +419,15 @@ public class Bullet : MonoBehaviour
     // this process MAY be too intensive for iPhone, but then it does keep bullet number under control
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Boundary") || (other.name == "PlayerController" && damageManager.isFromEnemy))
+        var healthManager = other.gameObject.GetComponent<HealthManager>();
+        if (healthManager != null)
+        {
+            if ((damageManager.isFromEnemy && healthManager.EntityType == MobileType.Player) || (!damageManager.isFromEnemy && healthManager.EntityType == MobileType.Enemy))
+            {
+                Deactivate();
+            }
+        }
+        if (other.CompareTag("Boundary"))
         {
             Deactivate();
         }
@@ -427,9 +435,12 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (damageManager.isFromEnemy && other.gameObject.CompareTag("PlayerController"))
-        {
-            Deactivate();
+        var healthManager = other.gameObject.GetComponent<HealthManager>();
+        if (healthManager != null) {
+            if ((damageManager.isFromEnemy && healthManager.EntityType == MobileType.Player) || (!damageManager.isFromEnemy && healthManager.EntityType == MobileType.Enemy))
+            {
+                Deactivate();
+            }
         }
     }
 
